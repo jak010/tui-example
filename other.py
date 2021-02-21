@@ -1,23 +1,42 @@
-import time
-import urwid
+#!/usr/bin/env python
 
-progbar = urwid.ProgressBar('a','b',satt=u' ▏▎▍▌▋▊▉')
-progbar.render((100,),focus=True)
+import sys
+import urwid as uw
+from urwid_timed_progress import TimedProgressBar
+from urwid.html_fragment import screenshot_init, screenshot_collect
 
-def pbar(*args):
-    global progbar
-    global loop
-    for i in range(1, 100):
-        progbar.set_completion(i)
-
-        # progbar.render((10,))
-        loop.draw_screen()
-        time.sleep(0.1)
-
-
-btn = urwid.Button('Go', on_press=pbar)
-frame = urwid.Frame(urwid.Filler(urwid.Pile([progbar, btn])))
-loop = urwid.MainLoop(frame)
+# Demo of timed progress bar.
 
 if __name__ == '__main__':
+
+    palette = [
+        ('normal',   'white', 'black', 'standout'),
+        ('complete', 'white', 'dark magenta'),
+    ]
+
+    # Create two timed progress bars with labels and custom units.
+    # Using the same label_width allows the bars to line up.
+    bar1 = TimedProgressBar('normal', 'complete', label='Current File',
+                            label_width=15, units='MB', done=10)
+    bar2 = TimedProgressBar('normal', 'complete', label='Overall',
+                            label_width=15, units='MB', done=100)
+
+    # Advance the second bar
+    bar2.add_progress(40)
+
+    footer = uw.Text('q to exit, any other key adds to progress')
+    progress = uw.Frame(uw.ListBox([bar1, uw.Divider(), bar2]), footer=footer)
+
+    # Pressing a key other that 'q' advances the progress bars by 1
+    # Calling add_progress() also updates the displayed rate and time
+    # remaining.
+    def keypress(key):
+        if key in ('q', 'Q'):
+            raise uw.ExitMainLoop()
+        else:
+            bar2.add_progress(1)
+            if bar1.add_progress(1) and bar2.current < bar2.done:
+                bar1.reset()
+
+    loop = uw.MainLoop(progress, palette, unhandled_input=keypress)
     loop.run()
