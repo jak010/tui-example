@@ -1,27 +1,28 @@
 import urwid
+import psutil
+from progress.bar import Bar
 
+bar = Bar("Processing", max=100, suffix="%(index).1f%% - %(max)d%% cpu  ")
 
-def on_ask_change(edit, new_edit_text):
-    reply.set_text(('I say', u"Nice to meet you, %s" % new_edit_text))
+def exit_on_q(key):
+    if key in ('q', 'Q'):
+        raise urwid.ExitMainLoop()
 
-
-def on_exit_clicked(button):
-    raise urwid.ExitMainLoop()
-
-
-# palette = [('I say', 'default,bold', 'default', 'bold'), ]
+reply = urwid.Text(u"")
 
 ask = urwid.Edit(('I say', u"What is your name?\n"))
-reply = urwid.Text(u"")
-button = urwid.Button(u'Exit', on_press=on_exit_clicked)
-button2 = urwid.Button(u'Exit', on_press=on_exit_clicked)
-button3 = urwid.Button(u'Exit', on_press=on_exit_clicked)
 
-div = urwid.Divider(top=10,bottom=10)
-inout_pile = urwid.Pile([ask, div, reply])
+def on_status_bar(edit, new_edit_text):
+    p=psutil.cpu_percent()
+    bar.index = p
+    reply.set_text((
+        "%s", bar
+    ))
 
+urwid.connect_signal(ask, "change",on_status_bar)
+inout_pile = urwid.Pile([ask, reply])
 lined_container = urwid.LineBox(inout_pile)
-cols = urwid.Columns([lined_container, (9, button), (8, button2)])
-top = urwid.Filler(cols, valign='middle')
-urwid.connect_signal(ask, 'change', on_ask_change)
+
+top = urwid.Filler(lined_container, valign="top")
+
 urwid.MainLoop(top).run()
