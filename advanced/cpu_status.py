@@ -8,28 +8,40 @@ if __name__ == '__main__':
         ('normal', 'white', 'white', 'standout'),
     ]
 
+    # Stat Check
+    current_stat = int()
+
     bar1 = TimedProgressBar('normal', 'complete', label='Current Input',
-                            label_width=100, done=100)
+                            label_width=100, done=10)
 
     footer = uw.Text('q to exit, any other key adds to progress')
+
+
     # progress = uw.Frame(uw.ListBox([bar1, uw.Divider()]), footer=footer)
 
-
     def keypress(key):
+        p = psutil.Process(33362)
+        memory = p.as_dict()['memory_percent']
+        current_stat = memory
+
+        # bar1.add_progress(memory)
+        time.sleep(0.1)
+
         if key in ('q', 'Q'):
             raise uw.ExitMainLoop()
 
-    def press_test(*args):
-        p = psutil.Process(1509)
-        memory = p.as_dict()['memory_percent']
-        print(memory)
-        bar1.add_progress(memory)
-        time.sleep(0.2)
-        
+        bar1.current = memory
 
 
-    btn = uw.Button("Go", on_press=press_test)
-    frame = uw.Frame(uw.Filler(uw.Pile([bar1, btn ])))
+    # def press_test(*args):
+    #     p = psutil.Process(560)
+    #     memory = p.as_dict()['memory_percent']
+    #     current_stat = memory
+    #     bar1.add_progress(memory)
+    #     time.sleep(0.1)
+
+    # btn = uw.Button("Go", on_press=press_test)
+    frame = uw.Frame(uw.Filler(uw.Pile([bar1])))
 
     loop = uw.MainLoop(frame, unhandled_input=keypress)
     loop.run()
