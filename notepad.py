@@ -1,37 +1,57 @@
-<<<<<<< HEAD
-import urwid
-import psutil
-from progress.bar import Bar
+"""
 
-bar = Bar("Processing", max=100, suffix="%(index).1f%% - %(max)d%% cpu  ")
+Demonstrates a dynamic Layout
 
-def exit_on_q(key):
-    if key in ('q', 'Q'):
-        raise urwid.ExitMainLoop()
+"""
 
-reply = urwid.Text(u"")
+from datetime import datetime
 
-ask = urwid.Edit(('I say', u"What is your name?\n"))
+from time import sleep
 
-def on_status_bar(edit, new_edit_text):
-    p=psutil.cpu_percent()
-    bar.index = p
-    reply.set_text((
-        "%s", bar
-    ))
+from rich.align import Align
+from rich.console import Console
+from rich.layout import Layout
+from rich.live import Live
+from rich.text import Text
 
-urwid.connect_signal(ask, "change",on_status_bar)
-inout_pile = urwid.Pile([ask, reply])
-lined_container = urwid.LineBox(inout_pile)
+console = Console()
+layout = Layout()
 
-top = urwid.Filler(lined_container, valign="top")
+layout.split(
+    Layout(name="header", size=1),
+    Layout(ratio=1, name="main"),
+    Layout(size=10, name="footer"),
+)
 
-urwid.MainLoop(top).run()
-=======
+layout["main"].split(
+    Layout(name="side"), Layout(name="body", ratio=2), direction="horizontal"
+)
 
-import psutil
+layout["side"].split(Layout(), Layout())
 
-p = psutil.Process(560).as_dict()
+layout["body"].update(
+    Align.center(
+        Text(
+            """This is a demonstration of rich.Layout\n\nHit Ctrl+C to exit""",
+            justify="center",
+        ),
+        vertical="middle",
+    )
+)
 
-print(p)
->>>>>>> f4ce96cc7f2bf08d96c37a44be9fd255372a0ab9
+
+class Clock:
+    """Renders the time in the center of the screen."""
+
+    def __rich__(self) -> Text:
+        return Text(datetime.now().ctime(), style="bold magenta", justify="center")
+
+
+layout["header"].update(Clock())
+
+with Live(layout, screen=True, redirect_stderr=False) as live:
+    try:
+        while True:
+            sleep(1)
+    except KeyboardInterrupt:
+        pass

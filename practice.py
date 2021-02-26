@@ -1,34 +1,6 @@
-## Urwid Note
-
-#### Resource
-
-- urwid widget class
-  - http://urwid.org/manual/widgets.html
-
-- urwid progress bar
-  - https://github.com/mgk/urwid_timed_progress
-
-#### Module
-- Divider() : 화면 구분자
-  - Usage : Demonstration01.py
-  
-- LinBox() : 이 모듈에 넘겨진 인자들은 표현될 때 박스로 감싸져서 표현됨
-  - Usage : Demonstration02.py
-  
-- TimedProgressBar()
-  - Usage : Demonstration03.py
-  
-- ProgressBar()
-  - Usage : Demonstration03_1.py
-
-#### point
-
-urwidㅈ 만으로 여러 ㅈ정보를 표현하기 힘들지 않을까 생각(활용할 수 있는 예제가 생각보다 적고 분석하는데
-시간이 많이 들어감 URWID와 RICH 적당히 배합해서 써야 CUI 수준의 대시보드를 효과적으로 표현 가능할ㄱ듯
-```python
 """
 
-Demonstrates a dynamic Layout, Example, 
+Demonstrates a dynamic Layout
 
 """
 
@@ -85,5 +57,3 @@ with Live(layout, screen=True, redirect_stderr=False) as live:
 
     except KeyboardInterrupt:
         pass
-
-```
