@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/tui-example.iml" filepath="$PROJECT_DIR$/.idea/tui-example.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/urwid-example.iml" filepath="$PROJECT_DIR$/.idea/urwid-example.iml" />
+>>>>>>> f4ce96cc7f2bf08d96c37a44be9fd255372a0ab9
     </modules>
   </component>
 </project>

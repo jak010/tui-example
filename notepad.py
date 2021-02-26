@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import urwid
 import psutil
 from progress.bar import Bar
@@ -26,3 +27,11 @@ lined_container = urwid.LineBox(inout_pile)
 top = urwid.Filler(lined_container, valign="top")
 
 urwid.MainLoop(top).run()
+=======
+
+import psutil
+
+p = psutil.Process(560).as_dict()
+
+print(p)
+>>>>>>> f4ce96cc7f2bf08d96c37a44be9fd255372a0ab9

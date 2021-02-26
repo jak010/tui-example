@@ -9,7 +9,7 @@ p = urwid.ProgressBar(normal='a', complete=100,
 
 
 def progress_handler(key):
-    if key in ('q', "q", 'enter'):
+    if key in ('q', 'quit'):
         raise urwid.ExitMainLoop()
     p.current += 1
     p.render(size=(10,))
