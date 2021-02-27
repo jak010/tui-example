@@ -17,6 +17,7 @@ from rich.table import Table
 
 console = Console()
 layout = Layout()
+
 job_progress = Progress(
     "{task.description}",
     SpinnerColumn(),
@@ -26,22 +27,15 @@ job_progress = Progress(
 job_progress.add_task("[green]CPU Usage")
 job_progress.expand = True
 
-
 progress_table = Layout(
     Panel.fit(job_progress, title="[b]Resource Usage", border_style="red")
 )
 
 layout.split(
     Layout(name="header", size=10),
-    Layout(ratio=2, name="main"),
-    Layout(ratio=1, name="footer"),
 )
 
-layout["main"].split(
-    Layout(name="body"),
-    direction="horizontal"
-)
-layout['footer'].split(
+layout['header'].split(
     Layout(Panel(job_progress, title="[b]Resource Usage", border_style="red",expand=True))
 )
 
