@@ -1,0 +1,8 @@
+site_name: Resource
+nav:
+  - Home: index.md
+  - Rich: rich-summary.md
+  - Urwid: urwid-summary.md
+  - PyCui: pycui-summary.md 
+  - Data : data-summary.md
+theme: readthedocs

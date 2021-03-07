@@ -42,11 +42,11 @@ layout['header'].split(
 with Live(layout, screen=True, redirect_stderr=False) as live:
     try:
         while True:
-            sleep(1)
             import psutil
             cpu = psutil.cpu_percent()
+            sleep(1)
             job_progress.update(task_id=0, advance=float(cpu))
-            sleep(3)
+            sleep(1.2)
             job_progress.reset(task_id=0)
 
     except KeyboardInterrupt:
