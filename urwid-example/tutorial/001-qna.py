@@ -1,6 +1,7 @@
 import urwid
 
-
+# 종료 조건 설정
+## q, Q를 누르면 종료
 def exit_on_q(key):
     if key in ('q', 'Q'):
         raise urwid.ExitMainLoop()

@@ -1,4 +1,9 @@
+"""
+터미널에서 방향키 핸들링 예제
+"""
+
 import urwid
+
 
 class SelectableText(urwid.Text):
     def selectable(self):
@@ -7,10 +12,11 @@ class SelectableText(urwid.Text):
     def keypress(self, size, key):
         return key
 
+
 content = urwid.SimpleListWalker([
-    urwid.AttrMap(SelectableText('foo'), '',  'reveal focus'),
-    urwid.AttrMap(SelectableText('bar'), '',  'reveal focus'),
-    urwid.AttrMap(SelectableText('baz'), '',  'reveal focus'),
+    urwid.AttrMap(SelectableText('foo'), '', 'reveal focus'),
+    urwid.AttrMap(SelectableText('bar'), '', 'reveal focus'),
+    urwid.AttrMap(SelectableText('baz'), '', 'reveal focus'),
 ])
 
 listbox = urwid.ListBox(content)
@@ -18,7 +24,7 @@ wrapped = listbox
 
 palette = [
     ('reveal focus', 'black', 'dark cyan', 'standout')
-   ]
+]
 
 loop = urwid.MainLoop(wrapped, palette=palette)
 loop.run()
