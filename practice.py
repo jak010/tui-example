@@ -4,19 +4,15 @@ Demonstrates a dynamic Layout
 
 """
 
-from datetime import datetime
-from rich.progress import Progress, SpinnerColumn, BarColumn, TextColumn
 from time import sleep
-from rich.layout import Panel
-from rich.align import Align
-from rich.console import Console, RenderGroup
-from rich.layout import Layout
+from rich.progress import Progress, SpinnerColumn, BarColumn
+from rich.layout import Panel, Layout
+from rich.console import Console
 from rich.live import Live
-from rich.text import Text
-from rich.table import Table
 
 console = Console()
 layout = Layout()
+
 job_progress = Progress(
     "{task.description}",
     SpinnerColumn(),

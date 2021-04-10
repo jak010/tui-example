@@ -1,26 +1,35 @@
+""" 화면 분리 예제 """
+
 from rich import print
 from rich.layout import Layout
 
 layout = Layout()
-# 1 depth
-layout.split(
-    Layout(name="upper"),
-    Layout(name="lower")
-)
-layout['upper'].size = 5
-layout['upper'].ratio = 1
-layout['lower'].size = 5
 
-# 2 depth
-layout['lower'].split(
+# 화면 나누기
+layout.split(
+    Layout(name="상단"),
+    Layout(name="하단")
+)
+# 화면 영역별 사이즈 조정
+layout['상단'].size = 5
+layout['하단'].size = 5
+
+# 하단 레이아웃의 영역을
+# `left`, `right`의 변수로 다시 나눕니다
+layout['하단'].split(
     Layout(name="left"),
     Layout(name="right"),
-    direction="horizontal"  # horizontal 속성을 지정해 `lower`를 수평으로 분리시킴
+    direction="horizontal"
 )
 
-# 3 depth
+# left
 layout["left"].update(
-    "The mystery of life isn't a problem to solve, but a reality to experience."
+    "하단 레이아웃 왼쪽 글 입니다."
+)
+
+# right
+layout["right"].update(
+    "하단 레이아웃 오른쪽 글 입니다."
 )
 
 print(layout)
