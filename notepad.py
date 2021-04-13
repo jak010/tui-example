@@ -1,57 +1,18 @@
-"""
+import libtmux
 
-Demonstrates a dynamic Layout
+server = libtmux.Server()
+session = server.new_session(session_name="session_test", kill_session=True, attach=False)
+session.attached_pane.split_window()
 
-"""
+# 의사 코드로 이해하기 위해 pythonic 배제
+panes = [pane for pane in session.attached_window.panes]
 
-from datetime import datetime
+for index, pane in enumerate(panes, 0):
+    if index == 0:
+        pane.send_keys("python3 graph.py")
+    elif index == 1:
+        pane.send_keys("ls -al")
 
-from time import sleep
+server.attach_session(target_session="session_test")
 
-from rich.align import Align
-from rich.console import Console
-from rich.layout import Layout
-from rich.live import Live
-from rich.text import Text
-
-console = Console()
-layout = Layout()
-
-layout.split(
-    Layout(name="header", size=1),
-    Layout(ratio=1, name="main"),
-    Layout(size=10, name="footer"),
-)
-
-layout["main"].split(
-    Layout(name="side"), Layout(name="body", ratio=2), direction="horizontal"
-)
-
-layout["side"].split(Layout(), Layout())
-
-layout["body"].update(
-    Align.center(
-        Text(
-            """This is a demonstration of rich.Layout\n\nHit Ctrl+C to exit""",
-            justify="center",
-        ),
-        vertical="middle",
-    )
-)
-
-
-class Clock:
-    """Renders the time in the center of the screen."""
-
-    def __rich__(self) -> Text:
-        return Text(datetime.now().ctime(), style="bold magenta", justify="center")
-
-
-layout["header"].update(Clock())
-
-with Live(layout, screen=True, redirect_stderr=False) as live:
-    try:
-        while True:
-            sleep(1)
-    except KeyboardInterrupt:
-        pass
+# pkill -f tmux
